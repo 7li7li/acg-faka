@@ -26,6 +26,15 @@
     ])}
     #{js("/assets/common/js/ready.js")}
     #{index_var()}
+    <style>
+        .tg-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+            vertical-align: text-bottom;
+        }
+    </style>
     <!--start::HOOK-->
     #{hook(\App\Consts\Hook::USER_GLOBAL_VIEW_HEADER)}
     #{hook(\App\Consts\Hook::USER_VIEW_INDEX_HEADER)}
@@ -51,6 +60,14 @@
                 <li class="nav-item"><a class="nav-link #{if $title == "订单查询"}active#{/if}"
                                         href="/user/index/query"><i
                                 class="fa-duotone fa-regular fa-folders nav-icon"></i>订单查询</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://t.me/+esocI3e6mq9iNmRl" target="_blank">
+                    <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16l-1.61 7.56c-.12.54-.44.67-.89.42L12 14.8l-1.85 1.78c-.21.21-.38.38-.78.38l.28-3.96 7.12-6.43c.31-.28-.07-.43-.48-.16L8.92 11.3l-3.08-.96c-.67-.21-.68-.67.14-.99l12.02-4.63c.56-.21 1.05.13.87.78z"/>
+                    </svg>TG群组</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://t.me/lushuren666_bot" target="_blank">
+                    <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785L22.008 5.13c.309-1.239-.473-1.8-1.343-1.413z"/>
+                    </svg>TG客服</a></li>
             </ul>
             <div class="d-none d-lg-flex search-input" role="search">
                 <div class="input-group">
