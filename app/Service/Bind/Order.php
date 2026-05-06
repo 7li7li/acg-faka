@@ -975,6 +975,21 @@ class Order implements \App\Service\Order
 
         $order->save();
 
+        //TG Bot 通知
+        try {
+            $tgConfig = require BASE_PATH . '/config/telegram.php';
+            if (!empty($tgConfig['bot_token']) && !empty($tgConfig['chat_id'])) {
+                $text = "📦 新订单通知\n"
+                    . "订单号：{$order->trade_no}\n"
+                    . "商品：{$commodity->name}\n"
+                    . "数量：{$order->card_num}\n"
+                    . "金额：{$order->amount}\n"
+                    . "时间：{$order->pay_time}";
+                @file_get_contents("https://api.telegram.org/bot{$tgConfig['bot_token']}/sendMessage?" . http_build_query(['chat_id' => $tgConfig['chat_id'], 'text' => $text]));
+            }
+        } catch (\Exception|\Error $e) {
+        }
+
         if ($commodity->contact_type == 2 && $commodity->send_email == 1 && $order->owner == 0) {
             try {
                 $this->email->send($order->contact, "【发货提醒】您购买的卡密发货啦", "您购买的卡密如下：" . $order->secret);
