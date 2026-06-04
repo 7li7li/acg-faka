@@ -76,6 +76,16 @@
         return shipmentMap[status] || shipmentMap[0];
     }
 
+    function _GetCardContentHtml(secret, className = 'card-content') {
+        const dataSecret = encodeURIComponent(secret ?? "");
+        return `<div class="${className}" data-secret="${dataSecret}">
+          <div class="card-display">${secret}</div>
+          <button type="button" class="copy-all-btn copy-secret-btn mt-2">
+            <i class="fa-duotone fa-regular fa-copy me-1"></i>复制卡密
+          </button>
+        </div>`;
+    }
+
     function _CreateOrderItem(order) {
         let sku = ``, cardContent = ``;
 
@@ -111,7 +121,7 @@
         </div>
       </div>`;
             } else {
-                cardContent = `<div class="card-content-no-password"><div class="card-display">${order.secret}</div></div>${order?.commodity?.leave_message ? `<div class="mt-3">${order?.commodity?.leave_message}</div>` : ""}`;
+                cardContent = `${_GetCardContentHtml(order.secret, 'card-content-no-password')}${order?.commodity?.leave_message ? `<div class="mt-3">${order?.commodity?.leave_message}</div>` : ""}`;
             }
 
             cardContent = `<div class="card-section">
@@ -197,10 +207,17 @@
     }
 
     function _ShowCardContent(tradeNo, content, leaveMessage = null) {
-        $(`.card-content-${tradeNo}`).html(`<div class="card-content">
-          <div class="card-display">${content}</div>
-        </div>${leaveMessage ? `<div class="mt-3">${leaveMessage}</div>` : ""}`).show();
+        $(`.card-content-${tradeNo}`).html(`${_GetCardContentHtml(content)}${leaveMessage ? `<div class="mt-3">${leaveMessage}</div>` : ""}`).show();
     }
+
+    $(document).off('click', '.copy-secret-btn').on('click', '.copy-secret-btn', function () {
+        const text = decodeURIComponent($(this).closest('.card-content, .card-content-no-password').attr('data-secret') || "");
+        util.copyTextToClipboard(text, () => {
+            message.success("复制成功");
+        }, () => {
+            message.error("复制失败");
+        });
+    });
 
     $(document).off('click', '.view-card-btn').on('click', '.view-card-btn', function () {
         const tradeNo = $(this).data("no");

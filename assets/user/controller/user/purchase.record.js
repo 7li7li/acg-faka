@@ -80,4 +80,31 @@
 
     table.setState("status", "_order_status");
     table.render();
+
+    function _InitSecretCopyButtons() {
+        $(".secret").each(function () {
+            const $secret = $(this);
+            if ($secret.next(".secret-copy-row").length) {
+                return;
+            }
+            $secret.after('<div class="secret-copy-row"><button type="button" class="copy-secret layui-btn layui-btn-xs"><i class="fa-duotone fa-regular fa-copy"></i> 复制卡密</button></div>');
+        });
+    }
+
+    _InitSecretCopyButtons();
+    setTimeout(_InitSecretCopyButtons, 500);
+
+    const secretCopyObserver = new MutationObserver(_InitSecretCopyButtons);
+    secretCopyObserver.observe(document.querySelector(".content-body") || document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    $(document).off("click", ".copy-secret").on("click", ".copy-secret", function () {
+        util.copyTextToClipboard($(this).closest(".secret-copy-row").prev(".secret").val(), () => {
+            message.success("复制成功");
+        }, () => {
+            message.error("复制失败");
+        });
+    });
 }();

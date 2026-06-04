@@ -1568,7 +1568,9 @@ body {
 }
 
 .card-display {
-    white-space: pre-line;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-wrap: anywhere;
 }
 
 /* 新的卡密显示样式 */

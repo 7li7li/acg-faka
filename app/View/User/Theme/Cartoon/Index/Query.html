@@ -65,4 +65,30 @@
 
 
 #{ready("/assets/user/controller/index/query.js")}
+<script>
+ready(function () {
+  function initSecretCopyButtons() {
+    $(".card-display").each(function () {
+      const $display = $(this);
+      const $box = $display.closest(".card-content, .card-content-no-password");
+      if (!$box.length || $box.find(".copy-secret-btn").length) {
+        return;
+      }
+      $box.append('<button type="button" class="copy-all-btn copy-secret-btn mt-2"><i class="fa-duotone fa-regular fa-copy me-1"></i>复制卡密</button>');
+    });
+  }
+
+  $(document).off("click", ".copy-secret-btn").on("click", ".copy-secret-btn", function () {
+    const $box = $(this).closest(".card-content, .card-content-no-password");
+    const text = $box.attr("data-secret") ? decodeURIComponent($box.attr("data-secret")) : $box.find(".card-display").text();
+    util.copyTextToClipboard(text, () => message.success("复制成功"), () => message.error("复制失败"));
+  });
+
+  initSecretCopyButtons();
+  new MutationObserver(initSecretCopyButtons).observe(document.querySelector(".order-list") || document.body, {
+    childList: true,
+    subtree: true
+  });
+});
+</script>
 #{include file="./Footer.html"}
